@@ -18,13 +18,15 @@ $(document).ready(function() {
             
             .bind('focus', function() {
 					    $(this).removeClass("hint")
-					           .val("");
+              if ($(this).val() == searchLabel)
+					      $(this).val("");
 					  })
 
   //Bind a blur event to the search input that restores the hint text and "hint" class if no search text was entered
 				  
 				    .bind('blur', function() {
 				      $(this).addClass("hint")
-				             .val(searchLabel);   
-				    });
+              if ($(this).val() == "")
+				        $(this).val(searchLabel);   
+				    });         
 });
