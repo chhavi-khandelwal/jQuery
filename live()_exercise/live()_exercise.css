@@ -1,0 +1,21 @@
+#main-container {
+  display: inline-block;
+  width: 100px;
+  height: auto;
+  border: 2px solid black;
+}
+
+#add-button {
+  display: inline-block;
+  position: absolute;
+}
+
+.inner-container {
+  background-color: cyan;
+  border: 1px solid black;
+  text-align: center;
+}
+
+.highlight {
+  background-color: yellow;
+}
