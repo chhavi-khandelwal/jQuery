@@ -1,13 +1,13 @@
 $(document).ready(function() {
 
-	//slect all div elements that have a class of "module"
-	var moduleDiv = [];
-	$('div.module').each(function() {
+  //slect all div elements that have a class of "module"
+  var moduleDiv = [];
+  $('div.module').each(function() {
     moduleDiv.push($(this).attr('id'));
-	});
-	alert('div with classname module: ' + moduleDiv.join(', '));
+  });
+  alert('div with classname module: ' + moduleDiv.join(', '));
 
-	//three selectors that you could use to get the third item in the #myList unordered list.
+  //three selectors that you could use to get the third item in the #myList unordered list.
   alert("1. " + $("#myList li:nth-child(3)").html());
   alert("2.Best Method: " + $('#myListItem').html()); //best method since id selector is the most efficient
   alert("3. " + $("#myList li:eq(2)").html());
@@ -23,7 +23,7 @@ $(document).ready(function() {
 
   //Select all of the odd table rows in the table body.
   var oddRows = [];
-  $('#fruits tbody tr:odd').each(function() {
+  $('tbody tr:odd').each(function() {
     oddRows.push($(this).html());
   });
   alert("odd rows" + oddRows.join("\n"));
