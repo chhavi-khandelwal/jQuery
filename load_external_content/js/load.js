@@ -1,22 +1,23 @@
 $(document).ready(function() {
-  $('#blog h3').each(function() {
-    var $this = $(this);
+  $('#blog h3').each(function(index) {
+    $blog_post = $(this);
 
     //target div after the headline for each blog post 
-    // store a reference to it on the headline element 
-    $this.data('target_div', $('<div></div>').insertAfter($this));
+    var id = "target" + index;
+    var $target = $('<div id=' + id + ">" + '</div>').insertAfter($blog_post);
 
-    //Bind a click event to load the appropriate content from blog.html into the target div
-    $this.bind('click', function(event) {
+    // store a reference to it on the headline element
+    $blog_post.data('target_id', id);
 
-      event.preventDefault();
-      
+  }).bind('click', function(event) {     //Bind a click event to load the appropriate content from blog.html into the target div  
+
       var $blog_post = $(this);
       var href = $blog_post.find('a').attr('href');
       var id = "#" + href.split('#')[1];
-      var $target_div = $blog_post.data('target_div');
+      var $target_div = $blog_post.siblings($('#' + $blog_post.data('target_id')));
 
       $target_div.load("blog.html " + id);
+
+      event.preventDefault();
     });
-  });
 });
