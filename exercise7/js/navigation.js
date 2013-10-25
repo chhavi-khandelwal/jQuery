@@ -1,7 +1,7 @@
 $(document).ready(function() {
   $('#nav li').hover(
     function() {
-      $this = $(this);
+      var $this = $(this);
       $this.toggleClass('hover');
       $this.children('ul').slideToggle();
   });
