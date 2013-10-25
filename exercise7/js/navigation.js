@@ -1,8 +1,13 @@
 $(document).ready(function() {
   $('#nav li').hover(
     function() {
-      $this = $(this);
-      $this.toggleClass('hover');
-      $this.children('ul').slideToggle();
+      var $this = $(this);
+      $this.addClass('hover');
+      $this.children('ul').slideDown();
+    },
+    function() {
+      var $this = $(this);
+      $this.removeClass('hover');
+      $this.children('ul:visible').slideUp();
   });
 });
