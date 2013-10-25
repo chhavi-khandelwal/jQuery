@@ -20,6 +20,6 @@ $(document).ready(function() {
   }));
 
   //Add a new div.module to the page after the last one; put a copy of one of the existing images inside of it.
-  $('<div class="module"></div>').insertAfter($($moduleDiv).last()).append($('img[alt="fruit"]').clone());
+  $('<div class="module"></div>').insertAfter($moduleDiv.last()).append($('img[alt="fruit"]').clone());
 
 });
