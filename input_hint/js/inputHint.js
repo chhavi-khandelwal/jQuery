@@ -6,17 +6,20 @@ $(document).ready(function() {
   
   var searchLabel = searchForm.find($('label[for="q"]')).remove().text();
 
-  /*1.Set the value of the search input to the text of the label element 
-  2.Add a class of "hint" to the search input 
-  3.Bind a focus event to the search input that removes the hint text and the "hint" class
-  4.Bind a blur event to the search input that restores the hint text and "hint" class if no search text was entered*/
+  //Set the value of the search input to the text of the label element 
   searchInput.val(searchLabel)
+
+  //Add a class of "hint" to the search input 
     .addClass("hint")
+
+  //Bind a focus event to the search input that removes the hint text and the "hint" class
     .bind('focus', function() {
       $(this).removeClass("hint");
       if ($(this).val() == searchLabel)
         $(this).val("");
     })
+    
+  //Bind a blur event to the search input that restores the hint text and "hint" class if no search text was entered
     .bind('blur', function() {
       $(this).addClass("hint");
       if (!$(this).val().trim())
