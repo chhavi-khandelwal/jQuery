@@ -9,10 +9,10 @@ $(document).ready(function() {
   $('input[name="q"]').parent().addClass('myForm');
 
   //Select the list item inside #myList that has a class of "current" and remove that class from it; add a class of "current" to the next list item
-  var index = $('#myList li.current').removeClass('current').next().addClass('current');
+  $('#myList li.current').removeClass('current').next().addClass('current');
 
   //Select the select element inside #specials; traverse your way to the submit button.
-  $('#specials select').parent().next().find('input[type="submit"]');
+  $('#specials select').parents('form').find('input[type="submit"]');
 
   //Select the first list item in the #slideshow element; add the class "current" to it, and then add a class of "disabled" to its sibling elements. 
   $('#slideshow li:first-child').addClass('current').siblings().addClass('disabled');
