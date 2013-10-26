@@ -1,21 +1,20 @@
 $(document).ready(function() {
 
   //Append a target div after the form that's inside the #specials element
-  $('<div></div>').insertAfter('#specials form');
+  $specialsDiv =  $('<div></div>').insertAfter('#specials form')
+    .append('<h2></h2> <p></p> <img>');
   
   $specials = $('#specials');
-  $specialsDiv = $specials.find('div');
   var specialsCache = null;
 
   //Bind to the change event of the select element
-  $specials.find('select').bind('change', function() {
-    $specialsDiv.html("");
+  $specials.find('select[name="day"]').bind('change', function() {
     if (specialsCache == null) {
       specialsCache = sendAjaxRequest();
     }
     var key = $(this).val();
     if(specialsCache[key]) {
-      $specialsDiv.html(getSpecialsData(specialsCache, key));
+      getSpecialsData(specialsCache, key);
     } 
   });
   
@@ -35,13 +34,11 @@ $(document).ready(function() {
 
   //get data from special json
   function getSpecialsData(data, key) {
-    $('<h2></h2>').html(data[key].title)
-                  .css('color', data[key].color)
-                  .appendTo($specialsDiv);
-    $('<p></p>').html(data[key].text)
-                .css('color', data[key].color)
-                .appendTo($specialsDiv);
-    $('<img src=' + data[key].image + ">" + '</img>').appendTo($specialsDiv);
+    $specialsDiv.children('h2').html(data[key].title)
+      .css('color', data[key].color).end()
+      .children('p').html(data[key].text)
+      .css('color', data[key].color).end()
+      .children('img').attr('src', data[key].image).end();
   }
   
   //remove the submit button from the form  
