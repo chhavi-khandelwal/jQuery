@@ -6,30 +6,21 @@ $(document).ready(function() {
   $slideList = $('#slideshow li');
   $slideList.hide();
   $('<nav></nav>').appendTo('#slideshow');
-  var listLength = $slideList.length;
-  var i = 0;
   
   //Slideshow 
-  var slideShow = function() {
-    if ($slideList.eq(i).length) {
-      i++;
-      $slideList.eq(i-1).fadeOut(1000, showImageNumber);
-      $slideList.eq(i).delay(1000).fadeIn(1000, slideShow);
-      
-      //end of the list, start again at the beginning.
-      if (i == listLength) {
-        $slideList.eq(i).fadeOut(1000, showImageNumber);
-        i = 0;
-        $slideList.eq(i).delay(1000).fadeIn(1000, slideShow);
-      }
+  var slideShow = function(slide_num, num_slides) {
+    if ($slideList.eq(slide_num).length) {
+      $slideList.eq(slide_num).fadeOut(1000, function(){ showImageNumber(slide_num, num_slides); });
+      slide_num = (slide_num + 1) % num_slides;
+      $slideList.eq(slide_num).delay(1000).fadeIn(1000, function(){ slideShow(slide_num, num_slides); });
     }
   }
   
   //create a navigation area under the slideshow that shows how many images there are and which image you're currently 
-  var showImageNumber = function() {
-    $('#slideshow').find('nav').html("image: " + (i+1) + "/" + listLength);
+  var showImageNumber = function(slide_num, num_slides) {
+    $('#slideshow').find('nav').html("image: " + (slide_num + 1) + "/" + num_slides);
   }
 
-  $slideList.eq(i).fadeIn(1000, slideShow);
-  showImageNumber();
+  $slideList.eq(0).fadeIn(1000, function(){ slideShow(0, $slideList.length); });
+  showImageNumber(0, $slideList.length);
 });
