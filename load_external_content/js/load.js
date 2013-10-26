@@ -1,6 +1,6 @@
 $(document).ready(function() {
   $('#blog h3').each(function(index) {
-    $blog_post = $(this);
+    var $blog_post = $(this);
 
     //target div after the headline for each blog post 
     var id = "blog_load_target" + index;
@@ -14,7 +14,7 @@ $(document).ready(function() {
       event.preventDefault();
 
       var $blog_post = $(this);
-      var href = $blog_post.find('a').attr('href');
+      var href = $blog_post.children('a:first').attr('href');
       var id = "#" + href.split('#')[1];
       var $target_div = $blog_post.siblings($('#' + $blog_post.data('blog_load_target_id')));
 
