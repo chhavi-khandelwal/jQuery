@@ -13,7 +13,7 @@ $(document).ready(function() {
   });
   
   // clicking the last item on the stack should remove that item from the stack
-  $('#main-container').on('click', 'div:first-child', function() {
+  $mainContainer.on('click', 'div:first-child', function() {
     $(this).remove();
   });
 });
