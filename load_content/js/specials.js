@@ -10,7 +10,7 @@ $(document).ready(function() {
   //Bind to the change event of the select element
   $specials.find('select[name="day"]').bind('change', function() {
     if (specialsCache == null) {
-      specialsCache = sendAjaxRequest();
+      sendAjaxRequest();
     }
     var key = $(this).val();
     if(specialsCache[key]) {
@@ -23,13 +23,11 @@ $(document).ready(function() {
     $.ajax({
       async: false,
       url: 'json/specials.json',
-      type: 'get',
       dataType: 'json',
       success: function(data) {
         specialsCache = data;
       }
     });
-    return specialsCache;
   }
 
   //get data from special json
@@ -42,6 +40,6 @@ $(document).ready(function() {
   }
   
   //remove the submit button from the form  
-  $specials.find('form').find('li.buttons').remove();
+  $specials.find('form').find('input.input_submit').remove();
 
 });
