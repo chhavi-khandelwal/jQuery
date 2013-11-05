@@ -1,5 +1,5 @@
  [{ "id": "Loveit", "name": "Love it"},
   {"id": "Likeit", "name": "Like it"},
-  {"id": "NoViews", "name": "No Views"}, 
+  {"id": "NoViews", "name": "No Views"},
   {"id": "Dislike", "name": "Dislike"}, 
   {"id": "Abhoreit", "name": "Abhore it"}]
