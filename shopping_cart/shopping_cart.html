@@ -1,0 +1,83 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>
+      Shopping-Cart
+    </title>
+    <link rel="stylesheet" type="text/css" href="css/shopping_cart.css">
+    <script defer type="text/javascript" src="js/shopping_cart.js"></script>
+  </head>
+  <body>
+    <div id="main-container">
+      <nav>
+        <ul>
+          <li id="products" class="main-menu">
+            Products
+          </li>
+          <div id="products-div">
+            <div id="header">
+              <form>
+                <div id="search-box">
+                  <label for="search">Search:</label>
+                  <input type="textbox" id="search-text">
+                  <input type="submit" id="search-button" value="Search">
+                </div>
+              </form>
+              <div id="clear-div">
+                <input type="button" id="clear-button" value="Clear">
+              </div>
+              <div id="category-div">
+                <label for="category">Category</label>
+                <select id="category-list">
+                  <option value="all">All</option>
+                  <option value="mobile">Mobile</option>
+                  <option value="laptop">Laptop</option>
+                  <option value="camera">Camera</option>
+                  <option value="television">Television</option>
+                </select>
+              </div>
+            </div>
+            <div id="product-grid">
+            </div>
+            <div id="product-footer">
+              <div id="cost-div">
+                Total:
+                <div id="amount-div">
+                  0.00
+                </div>
+              </div>
+              <input type="button" id="checkout" value="Checkout">
+            </div>
+          </div>
+          <li id="cart" class="main-menu">
+            My Cart
+            <div id="mycart-items">
+              (0)
+            </div>
+          </li>
+          <div id="mycart-div">
+            <div id="table-div">
+                <div class="tab-firstcol tab-col">Products</div>
+                <div class="tab-col">Price</div>
+                <div class="tab-col">Quantity</div>
+                <div class="tab-col">SubTotal</div>
+                <div class="tab-col"></div>
+            <div id="table-row">
+            </div>
+            </div>
+            <div id="footer">
+              <div id="cost-div">
+                Total:
+                <div id="cart-amount-div">
+                  0.00
+                </div>
+              </div>
+              <input type="button" id="checkout" value="Checkout">
+            </div>
+          </div>
+        </ul>
+      </nav>
+    </div>
+  </body>
+  <script src="libs/jquery-1.10.2.min.js"></script>
+</html>

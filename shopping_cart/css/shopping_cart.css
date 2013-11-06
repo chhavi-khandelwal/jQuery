@@ -1,0 +1,155 @@
+ul {
+  border-bottom: 1px solid #000000;
+  display: inline-block;
+  width: auto;
+}
+
+ul, li {
+  margin: 0px;
+  padding: 0px;
+}
+
+.product-image, p {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.tab-row {
+  display: block;
+}
+
+.tab-col {
+  display: inline-block;
+  width: 160px;
+}
+
+form {
+  display: inline-block;
+}
+
+.tab-firstcol {
+  display:inline-block; 
+  width: 370px;
+}
+
+li.main-menu:first-child {
+  margin-left: 0px;
+}
+
+li.main-menu {
+  background-color: #CFCFCF;
+  display: inline-block;
+  height: 37px;
+  margin-left: 2px;
+  padding-top: 7px;
+  padding-left: 50px;
+  width: 150px;
+  border: 2px solid;
+}
+
+#cost-div, #amount-div {
+  font-size: 20px;
+  font-weight: bold;
+  display: inline-block;
+}
+
+#footer {
+  display: inline-block;
+  width: 1030px;
+  height: 50px;
+  border: 1px solid black;
+  text-align: right;
+  padding: 10px;
+}
+
+#product-footer {
+  padding: 10px;
+  width: 780px;
+  display: inline-block;
+  height: 50px;
+  border: 1px solid black;
+  text-align: right;
+}
+
+#mycart-items {
+  display: inline-block;
+}
+
+#products-div {
+  background-color: #CFCFCF;
+  border: 1px solid #000000;
+  border-top: none;
+  display: block;
+  padding-top: 1px 20px 0px 20px;
+  width: 800px;
+  height: auto;
+  position: absolute;
+}
+
+#mycart-div {
+  background-color: #CFCFCF;
+  border: 1px solid #000000;
+  border-top: none;
+  padding-top: 1px 20px 0px 20px;
+  height: auto;
+  position: absolute;
+  display: block;
+  width: 1050px;
+}
+
+#table-div {
+  border: 2px solid;
+}
+
+#search-box, #category-div, #clear-div {
+  display: inline-block;
+}
+
+label {
+  margin-left: 20px;
+}
+
+#product-grid {
+  width: 800px;
+  height: 300px;
+  overflow: auto;
+  border: 1px solid black;
+}
+
+#header {
+  width: 800px;
+  height: 50px;
+  padding-top: 20px;
+  border: 1px solid black;
+}
+
+.inner-divs {
+  vertical-align: middle;
+  display: inline-block;
+}
+
+.outer-divs {
+  display: block;
+  height: 100px;
+  font-size: 12px;
+  font-weight: bold;
+  border: 1px solid red;
+}
+
+.product-image {
+  width: 70px;
+  height: 70px;
+}
+
+.quantity-text {
+  width: 50px;
+}
+
+.product-image, .quantity-text {
+  vertical-align: middle;
+}
+
+div.inner-divs:nth-child(2) {
+  width: 460px;
+  word-wrap: break-word;
+}

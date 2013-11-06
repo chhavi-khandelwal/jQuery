@@ -1,0 +1,22 @@
+{
+"mobile":[
+  {"id": "mobile1", "name": "Samsung Galaxy Golden", "description": "Android v4.2 OS, 8 MP Primary Camera, Dual Core Processor", "price": 49900, "image": "images/mobile1.jpeg"},
+  {"id": "mobile2", "name": "Karbonn Titanium S9 (White)", "description": "13 MP Primary Camera, Android v4.2 OS, Dual SIM (GSM + GSM)", "price": 17990, "image": "images/mobile2.jpeg"},
+  {"id": "mobile3", "name": "BlackBerry Curve 9220 (Black)", "description": "BlackBerry OS, 2 MP Primary Camera, 2.44-inch TFT Screen", "price": 8599, "image": "images/mobile3.jpeg"}
+],
+"laptop":[
+  {"id": "laptop1", "name": "HP 455 Laptop", "description": "APU Dual Core/ 2GB/ 500GB/ DOS", "price": 20990, "image": "images/laptop1.jpeg"},
+  {"id": "laptop2", "name": "Dell Vostro 2520 Laptop", "description": "3rd Gen Ci3/ 4GB/ 500GB/ Win8", "price": 33100, "image": "images/laptop2.jpeg"},
+  {"id": "laptop3", "name": "Dell Vostro 2520 Laptop", "description": "2nd Gen PDC/ 2GB/ 320GB/ Linux", "price": 22500, "image": "images/laptop3.jpeg"}
+],
+"camera":[
+  {"id": "camera1", "name": "Nikon Coolpix L820", "description": "Advance Point and shoot (Plum)", "price": 13990, "image": "images/camera1.jpeg"},
+  {"id": "camera2", "name": "Sony Cyber-shot DSC-W710", "description": "Point & Shoot (Black)", "price": 5690, "image": "images/camera2.jpeg"},
+  {"id": "camera3", "name": "Nikon Coolpix L27", "description": "Point & Shoot (Design Purple)", "price": 4450, "image": "images/camera3.jpeg"}
+],
+"television":[
+  {"id": "television1", "name": "Dell IN1930", "description": "18.5 inch LED Backlit LCD Monitor", "price": 5832, "image": "images/television1.jpeg"},
+  {"id": "television2", "name": "Dell S2240L", "description": "21.5 inch LED Backlit LCD Monitor (Black)", "price": 9440, "image": "images/television2.jpeg"},
+  {"id": "television3", "name": "Dell IN2030M", "description": "20 inch LED Backlit LCD Monitor", "price": 6555, "image": "images/television3.jpeg"}
+]
+}
