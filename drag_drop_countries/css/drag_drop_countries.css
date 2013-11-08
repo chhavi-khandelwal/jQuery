@@ -21,10 +21,6 @@ li {
   list-style-type: none;
 }
 
-.onlyDrag {
-  background-color: red;
-}
-
-.selectedCountry {
+li:hover {
   background-color: yellow;
 }
