@@ -1,17 +1,58 @@
 $(document).ready(function() {
   
+  var initialize = init();
+  
+});
+
+function init() {
   var productratings = new ProductRatings();
 
   productratings.sendAjaxRequestForProducts();
   productratings.sendAjaxRequestForRatings();
   productratings.displayProductGrid();
-  
-});
+
+  //binds click event on products
+  $('#product-grid').delegate('.product-label', "click", function() { productratings.productClick($(this)) });
+
+  //binds click event on ratings
+  $('#product-grid').delegate('.ratings', "click", function() { productratings.ratingClick($(this)) });
+}
 
 function ProductRatings() {
   var ratings = null, //stores ratings json
-    products = null;  //stores products json
+    products = null;  //stores products json  
+  
+  //click function on products
+  this.productClick = function($product) {
+    $product.toggleClass('highlight').parent('.radioDiv').siblings('.radioDiv').children('.product-label').removeClass('highlight');
+    $('.product-label').each(function() {
+      if(!$(this).hasClass('highlight')) {
+        $('.ratings').removeClass('highlight');
+      }
+    });
+  }
 
+  //click function on ratings
+  this.ratingClick = function($rating) {
+    $('.product-label').each(function() {
+      var $product = $(this);
+      if($product.hasClass('highlight')) {
+        $rating.toggleClass('highlight').siblings('.ratings').removeClass('highlight');
+        var highlightedProductId = $rating.attr('id');
+        $product.siblings('li').children('.' + highlightedProductId)
+          .prop({ 
+            disabled: false,
+            checked:true 
+          })
+          .parent().siblings('li').children()
+            .prop({
+              checked: false,
+              disabled:true
+            });
+      }
+    })
+  }
+  
   //sends ajax request for products
   this.sendAjaxRequestForProducts = function() {
     $.ajax({
@@ -74,37 +115,5 @@ function ProductRatings() {
         .html(ratings[j].name)
         .appendTo(ratingsDiv);
     }
-  }
-
-  //click function on products
-  $('#product-grid').delegate('.product-label', "click", function() {
-    $(this).toggleClass('highlight').parent('.radioDiv').siblings('.radioDiv').children('.product-label').removeClass('highlight');
-    $('.product-label').each(function() {
-      if(!$(this).hasClass('highlight')) {
-        $('.ratings').removeClass('highlight');
-      }
-    });
-  });
-
-  //click function on ratings
-  $('#product-grid').delegate('.ratings', "click", function() {
-    var rating = $(this);
-    $('.product-label').each(function() {
-      
-      if($(this).hasClass('highlight')) {
-        rating.toggleClass('highlight').siblings('.ratings').removeClass('highlight');
-        var highlightedProductId = rating.attr('id');
-        $(this).siblings('li').children('.' + highlightedProductId)
-          .prop({ 
-            disabled: false,
-            checked:true 
-          })
-          .parent().siblings('li').children()
-            .prop({
-              checked: false,
-              disabled:true
-            });
-      }
-    })
-  });
+  } 
 }

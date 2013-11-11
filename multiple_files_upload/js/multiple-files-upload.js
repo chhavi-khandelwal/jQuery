@@ -1,15 +1,49 @@
 $(document).ready(function() {
-  var fileUploader = new FileUploader(5);
-  fileUploader.createFileAttachmentContainer();
+  var initialize = new init();
 });
 
-function FileUploader(max_attachments) {
+function init() {
+  var  $uploadDiv = $('#upload-file-div');
+    fileUploader = new FileUploader(5, $uploadDiv);
+
+  fileUploader.createFileAttachmentContainer();
+
+  //adds click event to delete file button
+  $uploadDiv.delegate('.crossImage', 'click', function() { fileUploader.deleteFileContainer($(this)); });
+  
+  //adds click event to "add more files" link
+  $uploadDiv.delegate('#addLink', 'click', function() { fileUploader.addFileContainer(); return false; });
+}
+
+function FileUploader(max_attachments, $uploadDiv) {
 
   this.max_attachments = max_attachments;
-  var uploadCount = 0,
-    fileUploader = this,
-    $uploadDiv = $('#upload-file-div');
-   
+    var uploadCount = 0,
+      fileUploader = this,
+      $uploadDiv = $uploadDiv;
+
+  //deletes file container    
+  this.deleteFileContainer = function($deleteImage) {
+    if ($('.fileContainer:visible').length != 1) {
+      $deleteImage.parents('.fileContainer').hide().find('input[type="file"]').val("");
+    }
+    $('#addLink').attr('href', '#');
+  }
+    
+  //adds new file div
+  this.addFileContainer = function() {
+    var count = 0;
+    $('.fileContainer:hidden').each(function(index) {
+      if (index == 0) {
+        $(this).show();
+      }
+      count++;
+    });
+    if (count == 1) {
+      $('#addLink').removeAttr('href');
+    }
+  }  
+  
   //creates file attachment container
   this.createFileAttachmentContainer = function() {
     fileUploader.createChooseFileContainer();
@@ -51,29 +85,5 @@ function FileUploader(max_attachments) {
     .find('a').attr({ href: '#',
       id: 'addLink'})
      .html('Add more files');
-  }
-  
-  //adds click event to delete file button
-  $uploadDiv.delegate('.crossImage', 'click', function(index) {
-    if ($('.fileContainer:visible').length != 1) {
-      $(this).parents('.fileContainer').hide().find('input[type="file"]').val("");
-    }
-    $('#addLink').attr('href', '#');
-  });
-  
-  //adds click event to "add more files" link
-  $uploadDiv.delegate('#addLink', 'click', function() {
-    var count = 0;
-    $('.fileContainer:hidden').each(function(index) {
-      if (index == 0) {
-        $(this).show();
-      }
-      count++;
-    });
-    if (count == 1) {
-      $('#addLink').removeAttr('href');
-    }
-    return false;
-  });
-
+  } 
 }

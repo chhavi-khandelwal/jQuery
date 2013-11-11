@@ -24,3 +24,7 @@ li {
 li:hover {
   background-color: yellow;
 }
+
+.onlyDrag {
+  background-color: red;
+}

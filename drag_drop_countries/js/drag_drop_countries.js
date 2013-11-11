@@ -1,25 +1,12 @@
 $(document).ready(function() {
-  var listTransfer = new ListTransfer();
+  var initialize = new init();
 });
 
-function ListTransfer() {
-  var listTransfer = this,
-    transferredCountry = null,
+function init() {
+  var listTransfer = new ListTransfer(),
     $addlist = $('#addlist');
-  
-  //drags selected country
-  this.dragCountry = function(country) {
-    country.draggable({
-      helper: "clone",
-      revert: false,
-      start: function() {
-        $(this).addClass('draggedFrom' + $(this).parent().attr('id'));
-      }
-    });
-  }
-  this.dragCountry($('.dragAndDrop'));
-  
-  //drops country when dragged over #removelist ul
+
+//drops country when dragged over #removelist ul
   $('#removelist').droppable({
     drop: function(event, ui) {
       if ($(ui.draggable).hasClass('dragAndDrop') && $(ui.draggable).hasClass('draggedFromaddlist')) {
@@ -54,6 +41,26 @@ function ListTransfer() {
       $addlist.removeClass('onlyDrag');
     }
   });
+}
+
+function ListTransfer() {
+  var listTransfer = this,
+    transferredCountry = null,
+  
+  //drags selected country
+  this.dragCountry = function(country) {
+    country.draggable({
+      helper: "clone",
+      revert: false,
+      start: function() {
+        var $country = $(this);
+        $country.addClass('draggedFrom' + $country.parent().attr('id'));
+      }
+    });
+  }
+  this.dragCountry($('.dragAndDrop'));
+  
+  
 
   //removes country from list once dropped to other list 
   this.removeCountry = function(ui, $list) {
