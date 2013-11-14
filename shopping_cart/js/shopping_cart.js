@@ -25,8 +25,8 @@ function MyCart() {
   $myCartDiv.hide();
   
   //works on changing the list category
-  this.listOptionChange = function($this) {
-    myCart.createProductGrid($this);
+  this.listOptionChange = function() {
+    myCart.createProductGrid($(this));
   }
   
   //when clicked on My cart option
@@ -56,7 +56,8 @@ function MyCart() {
   }
   
   //removes product from mycart
-  this.removeFromCart = function($removeButton) {
+  this.removeFromCart = function() {
+    var $removeButton = $(this);
     var table_row = $removeButton.parents('div.tab-row');
     var row_id = table_row.attr('id');
     table_row.remove();
@@ -68,8 +69,8 @@ function MyCart() {
   }
   
   //updates the product quantity when changed from mycart
-  this.updateQuantity = function($this) {
-    var quantityBox = $this;
+  this.updateQuantity = function() {
+    var quantityBox = $(this);
     var subTotal = myCart.setSubtotal(quantityBox);
     quantityBox.parent().next().html(subTotal);
     myCart.displayTotal();
@@ -98,7 +99,8 @@ function MyCart() {
   }
   
   //updates quantity and subtotal
-  this.addButtonClick = function($addButton) {
+  this.addButtonClick = function() {
+    var $addButton = $(this);
     var prod_div = $addButton.parents('div.outer-divs');
     var productQuantity = prod_div.find('.quantity-text').val();
     prod_div.find('.quantity-text').val("");
@@ -225,16 +227,16 @@ function MyCart() {
   //binds events
   this.bindEvents = function() {
     //adds bind event to the select list
-    $categoryList.bind('change', function() { myCart.listOptionChange($(this)) });
+    $categoryList.bind('change', myCart.listOptionChange);
     
     //adds event to the remove buttonvar myCart = new MyCart();
-    $tableRow.delegate('.removeButton', 'click', function() { myCart.removeFromCart($(this)); });
+    $tableRow.delegate('.removeButton', 'click', myCart.removeFromCart);
     
     //binds blur event to the textbox after the quantity is changed
-    $tableRow.delegate('.quantity-text', 'blur', function() { myCart.updateQuantity($(this)); });
+    $tableRow.delegate('.quantity-text', 'blur', myCart.updateQuantity);
     
     //calls for addToCart() and checks for the addition to the existing items
-    $productGrid.delegate('.addButton', 'click', function() { myCart.addButtonClick($(this)); });
+    $productGrid.delegate('.addButton', 'click', myCart.addButtonClick);
     
     //binds click event to list item of Products
     $('#products').bind('click', myCart.productListClick);
