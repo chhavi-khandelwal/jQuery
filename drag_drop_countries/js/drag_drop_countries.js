@@ -45,7 +45,7 @@ function init() {
 
 function ListTransfer() {
   var listTransfer = this,
-    transferredCountry = null,
+    transferredCountry = null;
   
   //drags selected country
   this.dragCountry = function(country) {
