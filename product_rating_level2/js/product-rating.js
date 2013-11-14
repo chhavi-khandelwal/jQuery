@@ -12,10 +12,10 @@ function init() {
   productratings.displayProductGrid();
 
   //binds click event on products
-  $('#product-grid').delegate('.product-label', "click", function() { productratings.productClick($(this)) });
+  $('#product-grid').delegate('.product-label', "click", productratings.productClick);
 
   //binds click event on ratings
-  $('#product-grid').delegate('.ratings', "click", function() { productratings.ratingClick($(this)) });
+  $('#product-grid').delegate('.ratings', "click", productratings.ratingClick);
 }
 
 function ProductRatings() {
@@ -23,33 +23,31 @@ function ProductRatings() {
     products = null;  //stores products json  
   
   //click function on products
-  this.productClick = function($product) {
-    $product.toggleClass('highlight').parent('.radioDiv').siblings('.radioDiv').children('.product-label').removeClass('highlight');
-    $('.product-label').each(function() {
-      if(!$(this).hasClass('highlight')) {
-        $('.ratings').removeClass('highlight');
-      }
-    });
+  this.productClick = function() {
+    var $product = $(this);
+    $('.product-label.clicked').removeClass('clicked');
+    $product.toggleClass('clicked highlight');
+    $('.product-label').not('.clicked').removeClass('highlight');
+    if($('.product-label').not('highlight')) {
+      $('.ratings').removeClass('highlight');
+    }
   }
 
   //click function on ratings
-  this.ratingClick = function($rating) {
-    $('.product-label').each(function() {
-      var $product = $(this);
-      if($product.hasClass('highlight')) {
-        $rating.toggleClass('highlight').siblings('.ratings').removeClass('highlight');
-        var highlightedProductId = $rating.attr('id');
-        $product.siblings('li').children('.' + highlightedProductId)
-          .prop({ 
-            disabled: false,
-            checked:true 
-          })
-          .parent().siblings('li').children()
-            .prop({
-              checked: false,
-              disabled:true
-            });
-      }
+  this.ratingClick = function() {
+    var $rating =$(this);
+    $('.highlight').each(function() {
+      $rating.toggleClass('highlight').siblings('.ratings').removeClass('highlight');
+      var highlightedProductId = $rating.attr('id');
+      $(this).siblings('li').children('.' + highlightedProductId)
+        .prop({ 
+          disabled: false,
+          checked:true 
+        })
+        .parent().siblings('li').children()
+          .prop({
+            disabled:true
+          });
     })
   }
   
@@ -84,7 +82,7 @@ function ProductRatings() {
       var radioDiv = this.displayProductTags(i);
       
       for (var j = 0, ratingsLength = ratings.length; j < ratingsLength; j++) {
-        var radioButton = $('<input type="radio" disabled="true" name=' + products[i] + ">").addClass(ratings[j].id);
+        var radioButton = $('<input type="radio" disabled="true">').addClass(ratings[j].id).attr('name',products[i]);
         $('<li>').append(radioButton)
           .appendTo(radioDiv);
       }
