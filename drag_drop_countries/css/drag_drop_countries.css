@@ -5,7 +5,7 @@
   box-shadow: 1px 1px 1px 2px #808080;
 }
 
-#addlist, #removelist {
+.countrylist{
   display: inline-block;
   list-style-type: none;
   border: 1px solid;
