@@ -1,0 +1,134 @@
+#roles {
+	vertical-align: top;
+  border: 2px solid;
+  width: 250px;
+  display: inline-block;
+  margin-left: 20px;
+  text-align: center;
+}
+
+#employees {
+  vertical-align: top;
+  border: 2px solid;
+  width: 250px;
+  height: 200px;
+  display: inline-block;
+  text-align: center;
+  margin-left: 20px;
+  overflow: scroll;
+}
+
+.right {
+  float: right;
+}
+
+#todo-container {
+	display: inline-block;
+}
+
+.delEmpButton {
+	display: block;
+}
+
+form {
+	display: block;
+	margin-left: 50px;
+}
+
+#todos {
+  border: 2px solid;
+  width: 600px;
+  display: inline-block;
+  margin-left: 20px;
+	text-align: center;
+}
+.employeename {
+	display: block;
+	border: 0.5px solid;
+}
+
+.todoDivHeading {
+	height: 28px;
+	background-color: yellow;
+}
+
+li {
+	list-style-type: none;
+	background-color: #ff6b4f;
+}
+
+ul {
+	margin-right: 20px;
+}
+
+.roleHeadersDiv {
+	background-color: yellow;
+	border: 1px solid;
+	width: 248px;
+	height: auto;
+}
+
+li:hover {
+	background-color: yellow;
+}
+
+.todos-div {
+	display: inline-block;
+	width: 598px;
+	border: 1px solid;
+}
+.todoTextDiv {
+	display: inline-block;
+	position: relative;
+	width: 200px;
+	border: 0.5px solid blue;
+}
+.empname {
+	margin-left: 20px;
+	display: inline-block;
+  width: 70px;
+	height: 30px;
+	border-radius: 5px;
+	border: 1px solid;
+	vertical-align: top;
+}
+
+.scrollDiv {
+  overflow-y: scroll;
+  height: 100px;
+}
+
+.todoContainer {
+	border: 2px solid;
+}
+
+.roleDiv {
+	border: 1px solid;
+}
+
+.todolist {
+	margin-left: 20px;
+	display: inline-block;
+	border: 1px solid;
+	width: 470px;
+	height: auto;
+	text-align: center;
+	border-radius: 5px;
+}
+
+.del-image{
+	float: left;
+}
+
+img {
+  width: 20px;
+	height: 20px;
+}
+
+.onDeskEmployee:hover {
+  background-color: #CCEEFF;
+}
+
+.onDeskEmployee {
+	border: 1px solid;
+}
