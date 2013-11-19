@@ -8,10 +8,10 @@ function init() {
 }
 
 function EmployeeRecord() {
-  var employeeNames = null,
-    roleHeaders = null,
-    namesList = [],
-    employeeRecord = this;
+  var employeeNames = null;
+  var roleHeaders = null;
+  var namesList = [];
+  var employeeRecord = this;
 
   this.createRecordManager = function() {
     employeeNames = this.sendAjaxRequest('json/employee_management2.json');
@@ -77,40 +77,47 @@ function EmployeeRecord() {
       revert : "invalid",
       drag : function(event, ui) {
         var target = event.target;
-        var employeeName = $(target).attr('uniqueattr');
-        employeeRecord.dropName(employeeName, target);
+        employeeRecord.dropName(target);
       }
     });
   }
 
-  this.dropName = function(employeeName, target) {
+  this.dropName = function(target) {
     $('.roleHeadersDiv').droppable({
       drop: function() {
         var nameList = $(this).find('ul');
         var empId = $(target).attr('id');
+        var employeeName = $(target).attr('uniqueattr');
         var employeeId = nameList.attr('id') + empId;
         if (nameList.find('li').length == 0) {
-          var empNode = employeeRecord.makeListName(employeeName, target);
-          employeeRecord.appendNameToRoles(nameList, employeeId, empNode);
-          employeeRecord.appendNameTotodos(empNode, employeeName, target);
+          employeeRecord.maintainRecord(target, nameList);
         }
         else {
           if (namesList[employeeId] == undefined) {
-            var empNode = employeeRecord.makeListName(employeeName, target);
-            employeeRecord.appendNameToRoles(nameList, employeeId, empNode);
-            employeeRecord.appendNameTotodos(empNode, employeeName, target);
+            employeeRecord.maintainRecord(target, nameList);
           }
         }
       }
     });
   }
 
-  this.appendNameTotodos = function(empNode, employeeName, target) {
+  this.maintainRecord = function(target, nameList) {
+    var empId = $(target).attr('id');
+    var employeeName = $(target).attr('uniqueattr');
+    var employeeId = nameList.attr('id') + empId;
+    var empNode = employeeRecord.makeListName(employeeName, target);
+    employeeRecord.appendNameToRoles(nameList, employeeId, empNode);
+    employeeRecord.appendNameTotodos(empNode, target);
+  }
+
+  this.appendNameTotodos = function(empNode, target) {
     var targetRoleHead = empNode.attr('rolehead');
+    var employeeName = $(target).attr('uniqueattr');
     var uniqueattr = $(target).attr('uniqueattr');
     $('.todos-div').each(function() {
       if ($(this).attr('role-header') == targetRoleHead) {
-        var roleDiv = $('<div class="roleDiv"></div>').appendTo($(this))
+        var roleDiv = $('<div></div>').appendTo($(this))
+          .addClass('roleDiv')
           .attr('distinct', empNode.attr('id'))
           .attr('uniqueattr', uniqueattr);
         var divCollection = $('<div class="empname"></div>')
@@ -135,7 +142,6 @@ function EmployeeRecord() {
       .attr('id', employeeId)
       .addClass('onDeskEmployee');
     namesList[employeeId] = {"id": employeeId};   
-
   }
 
   this.makeListName = function(employeeName, target) {
@@ -143,7 +149,9 @@ function EmployeeRecord() {
     var empNode = $('<li></li>')
       .html(employeeName)
       .attr('uniqueattr', uniqueattr);
-      $('<img class="del-image" src="delete.png"/>').prependTo(empNode).hide();
+    $('<img/>').prependTo(empNode)
+      .addClass('del-image')
+      .attr('src', 'delete.png').hide();
     return empNode;
   }
   
@@ -245,8 +253,8 @@ function EmployeeRecord() {
     var $editButton = $(this);
     var textContainer = $editButton.siblings('.todoTextDiv');
     var textVal = textContainer.val();
-    var textInputContainer = $editButton.siblings('.todoText');
     var todoListCont = $editButton.closest('.todoListCont');
+    var textInputContainer = $editButton.siblings('.todoText');
     $editButton.remove();
     $('<img/>').insertAfter(textInputContainer)
       .attr('src', 'save.jpg')
@@ -291,7 +299,9 @@ function EmployeeRecord() {
         if (searchVal == todoCount) {
           $todoContainer.closest('.roleDiv').slideDown();
           var $employeeNameHeader = $todoContainer.parents('.todolist').siblings('.empname');
-          $employeeNameHeader.stop().css("background-color", "red").animate({ backgroundColor: "white"}, 1500);
+          $employeeNameHeader.stop()
+            .css("background-color", "red")
+            .animate({ backgroundColor: "white"}, 1500);
         }
         else {
           $todoContainer.closest('.roleDiv').slideUp();
@@ -309,9 +319,9 @@ function EmployeeRecord() {
   }
 
   this.bindEvents = function() {
-    var $roles = $('#roles'),
-      $todos = $('#todos'),
-      $employees = $('#employees');
+    var $roles = $('#roles');
+    var $todos = $('#todos');
+    var $employees = $('#employees');
 
     $roles.delegate('li', "mouseenter", employeeRecord.hoverName);
   
