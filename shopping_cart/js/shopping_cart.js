@@ -1,14 +1,7 @@
 $(document).ready(function() {
-  var initialize = new init();
-});
-
-function init() {
   var myCart = new MyCart();
-
-  myCart.sendAjaxRequest();
-  myCart.showAllProducts();
-  myCart.bindEvents();
-}
+  myCart.initialize();
+});
 
 function MyCart() {
   var products = null,
@@ -24,13 +17,20 @@ function MyCart() {
 
   $myCartDiv.hide();
   
+  //show initial cart page by showing products
+  this.initialize = function() {
+    this.sendAjaxRequest();
+    this.showAllProducts();
+    this.bindEvents();
+  }
+
   //works on changing the list category
-  this.listOptionChange = function() {
+  this.maintainGridOnOptionChange = function() {
     myCart.createProductGrid($(this));
   }
   
   //when clicked on My cart option
-  this.cartListClick = function() {
+  this.createMyCart = function() {
     $productsDiv.hide();
     $myCartDiv.show();
     $('div.tab-row').remove();
@@ -45,12 +45,12 @@ function MyCart() {
         .find('p').html(cartProducts[key].name).end()
         .nextAll('.prod_price').html(cartProducts[key].price)
         .next().children('.quantity-text').val(cartProducts[key].quantity).end()
-        .nextAll('.subtotal-text').html(myCart.productSubTotal(key));
+        .nextAll('.subtotal-text').html(myCart.getProductSubTotal(key));
     }
   }
 
   //when clicked on clear button
-  this.clearButtonClick = function() {
+  this.recreateProductGrid = function() {
     searchText.val("");
     myCart.createProductGrid($categoryList);
   }
@@ -72,7 +72,7 @@ function MyCart() {
   this.updateQuantity = function() {
     var quantityBox = $(this);
     var subTotal = myCart.setSubtotal(quantityBox);
-    quantityBox.parent().next().html(subTotal);
+    quantityBox.parent('div.tab-col').nextAll('.subtotal-text').html(subTotal);
     myCart.displayTotal();
   }
   
@@ -81,10 +81,11 @@ function MyCart() {
     var selectedCategory = $categoryList.val();
     $productGrid.html("");
     var searchVal = searchText.val().toLowerCase();
+    var searchRegex = new RegExp(searchVal, "i");
     for (var key in products) {
       for (var i = 0, len = products[key].length; i < len; i++) {
         var name = products[key][i].name.toLowerCase();
-        if ((key == selectedCategory && name.indexOf(searchVal) != -1) || (selectedCategory == 'all' && name.indexOf(searchVal) != -1)) {
+        if ((key == selectedCategory && searchRegex.test(name)) || (selectedCategory == 'all' && searchRegex.test(name))) {
           var outerDiv = myCart.createProductContainer();
           myCart.showProductGrid(outerDiv, i, key);
         }
@@ -93,13 +94,13 @@ function MyCart() {
   }
   
   //displays all products from the category selected when clicked on the product ul
-  this.productListClick = function() {
+  this.createProductList = function() {
     $productsDiv.show();
     $myCartDiv.hide();
   }
   
   //updates quantity and subtotal
-  this.addButtonClick = function() {
+  this.validateProductDetails = function() {
     var $addButton = $(this);
     var prod_div = $addButton.parents('div.outer-divs');
     var productQuantity = prod_div.find('.quantity-text').val();
@@ -179,7 +180,7 @@ function MyCart() {
   }
   
   //calculates and returns sub total of each product
-  this.productSubTotal = function(key) {
+  this.getProductSubTotal = function(key) {
     var subTotal = cartProducts[key].quantity * cartProducts[key].price;
     return subTotal; 
   }
@@ -227,7 +228,7 @@ function MyCart() {
   //binds events
   this.bindEvents = function() {
     //adds bind event to the select list
-    $categoryList.bind('change', myCart.listOptionChange);
+    $categoryList.bind('change', myCart.maintainGridOnOptionChange);
     
     //adds event to the remove buttonvar myCart = new MyCart();
     $tableRow.delegate('.removeButton', 'click', myCart.removeFromCart);
@@ -236,13 +237,13 @@ function MyCart() {
     $tableRow.delegate('.quantity-text', 'blur', myCart.updateQuantity);
     
     //calls for addToCart() and checks for the addition to the existing items
-    $productGrid.delegate('.addButton', 'click', myCart.addButtonClick);
+    $productGrid.delegate('.addButton', 'click', myCart.validateProductDetails);
     
     //binds click event to list item of Products
-    $('#products').bind('click', myCart.productListClick);
+    $('#products').bind('click', myCart.createProductList);
 
     //binds click event to list item of My Cart
-    $('#cart').bind('click', myCart.cartListClick);
+    $('#cart').bind('click', myCart.createMyCart);
 
     //binds event on search button
     $('#search-box').delegate('#search-button', 'click', function(event) {
@@ -251,7 +252,7 @@ function MyCart() {
     });
      
     //binds event on clear button
-    $('#clear-div').delegate('#clear-button', 'click', myCart.clearButtonClick);
+    $('#clear-div').delegate('#clear-button', 'click', myCart.recreateProductGrid);
     
     //reloads page
     $('#main-container').delegate('.checkout', 'click', myCart.reloadCart);
