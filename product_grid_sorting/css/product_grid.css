@@ -1,0 +1,64 @@
+.tagContainer {
+  display: block;
+}
+
+.gridProduct {
+  width: 100px;
+  height: 100px;
+  margin: 5px;
+}
+
+.grid-text {
+  color: #2ACAFF;
+  font-size: 24px;
+}
+
+.filter-container {
+  width: 55%;
+  vertical-align: top;
+  border: 2px solid;
+  padding: 2%;
+}
+
+.gridRow {
+  height: 100px;
+  display: block;
+}
+
+.current-page {
+  color: #191970;
+  text-decoration: underline;
+}
+
+#product-grid {
+  width:800px;
+  margin-top: 20px;
+  margin-left: 200px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.inline-block-tile {
+  display: inline-block;
+  vertical-align: top;
+}
+
+#pagination-container {
+  margin-top: 20px;
+  margin-left: 32%;
+  margin-right: 50%;
+}
+
+a {
+  color: #2ACAFF;
+  padding: 2px;
+}
+
+a:hover {
+  cursor: default;
+  text-decoration: underline;
+}
+
+#pagination-list {
+  width: 80%;
+}
