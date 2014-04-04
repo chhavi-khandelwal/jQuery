@@ -1,0 +1,93 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>
+      PRODUCT-GRID
+    </title>
+    <link rel="stylesheet" type="text/css" href="css/product_grid.css">
+    <script defer type="text/javascript" src="js/product_grid.js"></script>
+    <script defer type="text/javascript" src="js/product_filter.js"></script>
+    <script defer type="text/javascript" src="js/product_paginator.js"></script>
+  </head>
+  <body>
+    <div id="main-container">
+      <div class="inline-block-tile">
+        <div id="brandTag" class="filter-container">
+          Brand-Filter
+          <div class="tagContainer">
+            <input type="checkbox" class="brand" data-filter="BRAND A" id="brandA"/>
+            <label for="brandA">Brand A</label>
+          </div>
+          <div class="tagContainer">
+            <input type="checkbox" class="brand" id="brandB" data-filter="BRAND B"/>
+            <label for="brandB" id="brandB">Brand B</label>
+          </div>
+          <div class="tagContainer">
+            <input type="checkbox" class="brand" id="brandC" data-filter="BRAND C"/>
+            <label for="brandC" id="brandC">Brand C</label>
+          </div>
+          <div class="tagContainer">
+            <input type="checkbox" class="brand" id="brandD" data-filter="BRAND D"/>
+            <label for="brandD" id="brandD">Brand D</label>
+          </div>  
+        </div>
+        <div id="colorTag" class="filter-container">
+          Color-Filter
+          <div class="tagContainer">
+            <input type="checkbox" class="color" id="red" data-filter="Red"/>
+            <label for="red">Red</label>
+          </div>  
+          <div class="tagContainer">
+            <input type="checkbox" class="color" id="green" data-filter="Green"/>
+            <label for="green">Green</label>
+          </div>
+          <div class="tagContainer">
+            <input type="checkbox" class="color" id="yellow" data-filter="Yellow"/>
+            <label for="yellow">Yellow</label>
+          </div>
+          <div class="tagContainer">
+            <input type="checkbox" class="color" id="blue" data-filter="Blue"/>
+            <label for="blue">Blue</label>
+          </div>
+        </div>
+        <div id="sold_outTag" class="filter-container">
+          All OR Available Products
+          <div class="tagContainer">
+            <input type="radio" name="availProducts" id="all" class="sold_out" checked="checked"/>
+            <label for="all">All</label>
+          </div>
+          <div class="tagContainer">
+            <input type="radio" name="availProducts" class="sold_out" id= "available" data-filter="0"/>
+            <label for="available">Available</label>
+          </div>
+        </div>
+        <div class="filter-container">
+          Customize Pagination
+          <div>
+            <select id="pagination-list">
+              <option value="3">3</option>
+              <option value="6">6</option>
+              <option value="9">9</option>
+            </select>
+          </div>
+        </div>
+        <div class="filter-container">
+          Sort-by
+          <div>
+            <select id="sort-by-list">
+              <option value="color">Color</option>
+              <option value="brand">Brand</option>
+              <option value="sold_out">Availability</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="inline-block-tile">
+        <div id="product-grid">
+        </div>
+        <div id="pagination-container"></div>
+      </div>
+    </div>  
+  </body>
+  <script src="libs/jquery-1.10.2.min.js"></script>
+</html>
