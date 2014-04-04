@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>
+      SHOPPING CART
+    </title>
+    <link rel="stylesheet" type="text/css" href="css/shopping_cart.css">
+  </head>
+  <body>
+    <div id="main-container">
+      <div id="product-dashboard">
+        <div id="price-range-container">
+          <div class="head">PRICE RANGE</div>
+          <div class="price-selector">
+            <input type="radio" id="radio1" class="range-radio" name="range-button" data-min-range="0" data-max-range="10">
+            <label for="radio1">0-10</label>
+          </div>
+          <div class="price-selector">
+            <input type="radio" id="radio2" class="range-radio" name="range-button" data-min-range="11" data-max-range="20">
+            <label for="radio2">11-20</label>
+          </div>
+          <div class="price-selector">
+            <input type="radio" id="radio3" class="range-radio" name="range-button" data-min-range="21" data-max-range="30">
+            <label for="radio3">21-30</label>
+          </div>
+          <div class="price-selector">
+            <input type="radio" id="radio4" class="range-radio" name="range-button" data-min-range="31" data-max-range="10000">
+            <label for="radio4">31-Above</label>
+          </div>
+        </div>
+        <div id="category-dashboard"></div>
+      </div>
+      <div id="cart">
+        <div id="cart-container">
+          <span id="cart-text">YOUR CART</span>
+          <div id="cart-head"><b><p>X</p><p>Name</p><p>Price</p></b></div>
+        </div>
+        <div id="total"><b><p id="cart-total">Your Total: </p><p id="total-amount">0</p></b></div>
+      </div>
+    </div>
+    <script src="libs/jquery-1.10.2.min.js"></script>
+    <script src="libs/jquery.tmpl.min.js"></script>
+    <script type="text/javascript" src="libs/jquery-ui-1.10.3.custom.min.js"></script>
+    <script type="text/javascript" src="javascripts/shopping_cart.js"></script>
+    <script type="text/javascript" src="javascripts/cart.js"></script>
+    <script type="text/javascript" src="javascripts/template.js"></script>
+    <script type="text/javascript" src="javascripts/category.js"></script>
+    <script type="text/javascript" src="javascripts/product.js"></script>
+    <script type="text/javascript" src="javascripts/accessory.js"></script>
+    <script type="text/javascript" src="javascripts/filter.js"></script>
+    <script type="text/javascript" src="javascripts/cart_item.js"></script>
+  </body>
+</html>
