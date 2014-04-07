@@ -37,9 +37,9 @@ function Category(name, categoryJSONUrl) {
   //removes all associated products with the category once clicked on clear button
   this.removeAllAssociatedProducts = function() {
     $.each(category.products, function(index) {
-      var categoryProduct = category.products[index]['domCheckBox'];
-      if (categoryProduct.prop('checked')) {
-        categoryProduct.prop('checked', false).trigger('change');
+      var $categoryProduct = category.products[index]['domCheckBox'];
+      if ($categoryProduct.prop('checked')) {
+        $categoryProduct.prop('checked', false).trigger('change');
       }
     });
   }
