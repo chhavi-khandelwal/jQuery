@@ -11,8 +11,6 @@ function ProductGrid() {
   this.gridProducts = [];
   this.filteredProducts = [];
   this.filters = ["brand", "color", "sold_out"];
-  this.windowHash = {};
-  this.sortByFilter = 'color';
   var productGrid = this;
   var products = null;
   var $gridProducts;
@@ -29,11 +27,21 @@ function ProductGrid() {
   //append hash when window is loaded
   this.appendWindowLoadHash = function() {
     if (window.location.hash == '') {
-      window.location.hash = "#page=[1]";
+      window.location.hash = "#pagination=[3]&sortBy=[color]&page=[1]";
     }
     else {
       this.displayProductsExtractedFromHash();
+      var sortByParam = this.getWindowHashParam('sortBy');
+      $('#sort-by-list').val(sortByParam);
+      $('#pagination-list').val(this.getWindowHashParam('pagination'));
     }
+  }
+  
+  // returns value of the key passed from the url hash in string
+  this.getParameterByName = function(name) {
+    var regex = new RegExp("[\\#&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.hash);
+    return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
   }
   
   //binds on hash change event
@@ -43,26 +51,40 @@ function ProductGrid() {
     }
   }
   
-  //extracts products from hash and displays them
+  //extracts products from hash and displays them 
   this.displayProductsExtractedFromHash = function() {
-    this.windowHash = this.extractHashData();
     this.markExtractedFilters();
-    var pageNumber = this.windowHash['page'][0];
-    this.displayGridProducts(pageNumber, productPaginator.productsPerPage, this.sortByFilter);
+    var pageNumber = parseInt(this.getWindowHashParam('page'), 10);
+    var productsPerPage = parseInt(this.getWindowHashParam('pagination'), 10);
+    var sortByFilter = this.getWindowHashParam('sortBy');
+    this.displayGridProducts(pageNumber, productsPerPage, sortByFilter);
+  }
+  
+  //get parameters from the string
+  this.getWindowHashParam = function(hashParam) {
+    return this.getParameterByName(hashParam).split('[')[1].split(']')[0];
+  }
+  
+  //sets window hash of the productgrid
+  this.setWindowHash = function(hashValue, hashKey) {
+    var windowHashParams = hashKey + '=' + productGrid.getParameterByName(hashKey);
+    window.location.hash = window.location.hash.replace(windowHashParams, (hashKey + "=[" + hashValue + "]"));
   }
   
   //marks checkboxes extracted from hash
   this.markExtractedFilters = function() {
     for (var i = 0, len = this.filters.length; i < len; i++) {
-      if (this.windowHash[this.filters[i]] != undefined) {
-        this.checkHashFilters(this.filters[i]);
+      var filter = this.filters[i];
+      var filterHash = this.getParameterByName(filter);
+      if (filterHash.length) {
+        this.checkHashFilters(filter, filterHash);
       }
     }
   }
   
   //marks filters
-  this.checkHashFilters = function(filter) {
-    var hashFilters = this.windowHash[filter];
+  this.checkHashFilters = function(filter, filterHash) {
+    var hashFilters = filterHash.split('[')[1].split(']')[0].split(',');
     $('#' + filter + 'Tag').find('input').each(function(index) {
       var filterElement = $(this);
       var dataFilter = '' + filterElement.data('filter');
@@ -72,35 +94,6 @@ function ProductGrid() {
       else
         filterElement.prop('checked', false);
     });
-  }
-  
-  //extracts hash from the window hash
-  this.extractHashData = function() {
-    var urlHash = {};
-    var filterHashParams = [];
-    var window_hash = window.location.hash;
-    var window_hash_params = window_hash.split('#')[1].split('&');
-    for (var i = 0, len = window_hash_params.length; i < len; i++) {
-      var hashParams = window_hash_params[i].split('=');
-      urlHash[hashParams[0]] = hashParams[1];
-      var paramValue = hashParams[1];
-      var filtersHash = paramValue.split('[')[1].split(']')[0];
-      filterHashParams = productGrid.createFilterHashParams(filtersHash);
-      urlHash[hashParams[0]] = filterHashParams;
-    } 
-    return urlHash;
-  }
-  
-  //creates params for individual filter tag to mark them
-  this.createFilterHashParams = function(filtersHash) {
-    var filterHashParams = [];
-    if (filtersHash.indexOf(',') != -1) {
-      filterHashParams = filtersHash.split(',');
-    }
-    else {
-      filterHashParams.push(filtersHash);
-    }
-    return filterHashParams;
   }
   
   //sends Ajax request to get product json
@@ -138,7 +131,7 @@ function ProductGrid() {
     productPaginator.paginateProducts(productsPerPage);
     productGrid.displayFilteredProducts(pageNumber, sortByTag);
     productPaginator.displayPagination();
-    productPaginator.highlightPageNumber(this.windowHash['page'])
+    productPaginator.highlightPageNumber(parseInt(this.getWindowHashParam('page')));
   }
   
   //displays filtered products

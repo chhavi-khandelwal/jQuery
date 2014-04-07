@@ -6,17 +6,20 @@ function ProductFilter() {
     $('#main-container').on('change', 'input', this.setWindowHash);
 
     //binds change event on sort by select list
-    $('#sort-by-list').on('change', function() { 
-      productGrid.displayGridProducts(1, productPaginator.productsPerPage, $(this).val());
-    });
+    $('#sort-by-list').on('change', this.setWindowHashForSorting);
+  }
+  
+  //sets window hash when sort list value selected
+  this.setWindowHashForSorting = function() {
+    productGrid.setWindowHash($(this).find('option:selected').val(), 'sortBy');
+    productGrid.setWindowHash(1, 'page');
   }
   
   //sorts products according to filter selected
   this.sortProducts = function(selectedSortOption) {
-    productGrid.sortByFilter = selectedSortOption;
     productGrid.filteredProducts.sort(compare);
     function compare(product1, product2) {
-      var filterData1 = $(product1).data(productGrid.sortByFilter + 'filter'), filterData2 = $(product2).data(productGrid.sortByFilter + 'filter');
+      var filterData1 = $(product1).data(selectedSortOption + 'filter'), filterData2 = $(product2).data(selectedSortOption + 'filter');
       if (filterData1 < filterData2) {
         return -1;
       } else if (filterData1 > filterData2) {
@@ -31,7 +34,7 @@ function ProductFilter() {
   this.filterProducts = function() {
     var $gridProducts = productGrid.gridProducts;
     var productFilter = [];
-    for (var i = 0; i < productGrid.filters.length; i++) {
+    for (var i = 0, len = productGrid.filters.length; i < len; i++) {
       productFilter = this.filterSelection(productGrid.filters[i]);
       if (productFilter.length > 0){
         $gridProducts = this.getFilteredProducts(productFilter, $gridProducts);
@@ -79,27 +82,33 @@ function ProductFilter() {
           break;
       }
     });
-    productFilter.createCompleteWindowHash();
+    productFilter.maintainHashToUrlForEachFilter();
   }
   
-  //creates complete hash after combining hashes for color brand and availaibility
-  this.createCompleteWindowHash = function() {
-    var windowHashParams = [];
-    for (var filter in productFilter.filterHash) {
-      var filterParams = productFilter.filterHash[filter];
-      if (filterParams.length) {
-        var hashParam = filter + "=[" + filterParams + "]";
-        windowHashParams.push(hashParam); 
-      }
+  //maintain hash for each filter
+  this.maintainHashToUrlForEachFilter = function() {
+    for (var i = 0, len = productGrid.filters.length; i < len; i++) {
+      var filter = productGrid.filters[i];
+      this.appendHashForEachFilter(filter);
     }
-    this.appendHashToWindow(windowHashParams);
   }
   
-  //append created hash to the window
-  this.appendHashToWindow = function(windowHashParams) {
-    if (!($.isEmptyObject(productFilter.filterHash))) {
-      windowHashParams = '#' + windowHashParams.join('&') + '&';
-      window.location.hash = windowHashParams + 'page=[' + 1 + ']';
+  //appends hash for each filter if exists
+  this.appendHashForEachFilter = function(filter) {
+    var filterParams = this.filterHash[filter];
+    var windowHash = window.location.hash;
+    if (filterParams && (windowHash.indexOf(filter + '=')) != -1) {
+      productGrid.setWindowHash(filterParams, filter);
+      productGrid.setWindowHash(1, 'page');
+    }
+    else if (filterParams && (windowHash.indexOf(filter + '=')) == -1) {
+      var windowHashParams = '#' + filter + "=[" + filterParams + "]" + '&';
+      productGrid.setWindowHash(1, 'page');
+      window.location.hash = window.location.hash.replace('#', windowHashParams);
+    }
+    else {
+      var hashParam = filter + '=' + productGrid.getParameterByName(filter) + '&';
+      window.location.hash = window.location.hash.replace(hashParam, '');
     }
   }
   
@@ -111,11 +120,15 @@ function ProductFilter() {
     this.filterHash[filter.attr('class')].push(filter.data('filter'));
   }
   
-  //creates hash from the marked availaibility filters
+  //creates hash from the marked availability filters
   this.createAvailabilityHash = function(filter) {
     if (filter.attr('id') == 'available') {
       this.filterHash[filter.attr('class')] = [];
       this.filterHash[filter.attr('class')].push(filter.data('filter'));
+    }
+    else {
+      var availabilityHashParam = 'sold_out=' + productGrid.getParameterByName('sold_out') + '&';
+      window.location.hash = window.location.hash.replace(availabilityHashParam, '');
     }
   }
 }

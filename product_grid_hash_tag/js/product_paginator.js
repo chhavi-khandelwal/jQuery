@@ -1,19 +1,18 @@
 function ProductPaginator() {
   this.paginatedProducts = {};
-  this.productsPerPage = 3;
   this.numberOfPages;
   var $paginationContainer = $('#pagination-container');
 
   this.paginateProducts = function(productsPerPage) {
     this.paginatedProducts = {};
-    this.productsPerPage = productsPerPage;
+    var productsPerPage = parseInt(productsPerPage, 10);
     var productsCount = productGrid.filteredProducts.length;
-    this.numberOfPages = Math.ceil(productsCount/this.productsPerPage);
+    this.numberOfPages = Math.ceil(productsCount/productsPerPage);
     //hash being created with key as page no. and value as corresponding products to be shown
     var productIndex = 0;
     for (var i = 1; i <= this.numberOfPages; i++) {
-      this.paginatedProducts[i] = productGrid.filteredProducts.slice(productIndex, productIndex + this.productsPerPage);
-      productIndex = productIndex + this.productsPerPage;
+      this.paginatedProducts[i] = productGrid.filteredProducts.slice(productIndex, productIndex + productsPerPage);
+      productIndex = productIndex + productsPerPage;
     }
   }
   
@@ -28,14 +27,8 @@ function ProductPaginator() {
   }
 
   this.bindEvents = function() {
-    $paginationContainer.on('click', '.page', this.setWindowHash);
-    $('#pagination-list').on('change', this.updateProductsToDisplay);
-  }
-  
-  //updates products to display when pagination changed
-  this.updateProductsToDisplay = function() {
-    var productsPerPage = parseInt($(this).val());
-    productGrid.displayGridProducts(1, productsPerPage, productGrid.sortByFilter);
+    $paginationContainer.on('click', '.page', this.setPageNumberToWindowHash);
+    $('#pagination-list').on('change', this.setPaginationToWindowHash);
   }
   
   //highlights current page
@@ -44,9 +37,15 @@ function ProductPaginator() {
   }
   
   //sets window hash once clicked on page nos.
-  this.setWindowHash = function() {
+  this.setPageNumberToWindowHash = function() {
     var currentPageNumber = parseInt($(this).attr('id'));
-    var windowHash = window.location.hash.split('page=[');
-    window.location.hash = windowHash[0] + "page=[" + currentPageNumber + "]";
+    productGrid.setWindowHash(currentPageNumber, 'page');
+  }
+  
+  //sets window hash once pagination value selected from the list
+  this.setPaginationToWindowHash = function() {
+    var productsPerPage = parseInt($(this).val());
+    productGrid.setWindowHash(productsPerPage, 'pagination');
+    productGrid.setWindowHash(1, 'page');
   }
 }
