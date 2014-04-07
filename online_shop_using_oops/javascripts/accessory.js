@@ -25,10 +25,10 @@ function Accessory(category, accessory, product) {
     this.domAccessory = onlineShop.createTemplate(accessoryAttributes, accessoryTemplate);
   }
 
-  this.initialize = function() {
+  this.initializeAccessory = function() {
     this.createDOMForAccessory();
     this.bindEvents();
   }
-  this.initialize();
+  this.initializeAccessory();
 
 }

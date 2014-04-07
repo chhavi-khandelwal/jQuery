@@ -15,7 +15,7 @@ function OnlineShop() {
   this.createCategoryProductsGrid = function() {
     for (var key in categoriesJSONUrlCollection) {
       var categoryJSONUrl = categoriesJSONUrlCollection[key];
-      //create categories and its products
+      //create categories 
       this.categories[key] = new Category(key, categoryJSONUrl);
     }
   }

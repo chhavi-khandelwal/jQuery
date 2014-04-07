@@ -69,10 +69,10 @@ function Category(name, categoryJSONUrl) {
     $cartContainer.find('.' + category.name).removeClass('highlight');
   }
 
-  this.initialize = function() {
+  this.initializeCategory = function() {
     this.initializeProducts(categoryJSONUrl);
     this.bindEvents();
   }
-  this.initialize();
+  this.initializeCategory();
 
 }
