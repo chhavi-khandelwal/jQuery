@@ -1,0 +1,23 @@
+a {
+  color: #2ACAFF;
+}
+
+ul {
+  list-style-type: none;
+}
+
+a:hover {
+  text-decoration: underline;
+  cursor: default;
+}
+
+#listtwo, #listone {
+  display: inline-block;
+  margin-left: 20px;
+  vertical-align: top;
+  margin-top: 10px;
+}
+
+#See-More, #See-Less {
+  color: red;
+}
