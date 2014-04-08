@@ -1,4 +1,5 @@
-function UnorderedList(list) {
+function UnorderedList(list, id) {
+  this.listId = id;
   this.initialCount = list.initial_count;
   this.items = list.items;
   this.sortedListItems = [];
@@ -8,17 +9,17 @@ function UnorderedList(list) {
   
   //creates dom for nested lists inside the main list
   this.createDOMForNestedUnorderedList = function(listId) {
-    return $('<ul/>', {id: listId});
+    return $('<ul/>', {id: listId, class: 'nested-lists'});
   }
   
   //create dom for unordered list
   this.createDOMForUnorderedList = function() {
     var nestedLists = [];
     for (var i = 0, len = nestedListIds.length; i < len; i++) {
-      nestedLists.push(this.createDOMForNestedUnorderedList(nestedListIds[i]));
+      nestedLists.push(this.createDOMForNestedUnorderedList(nestedListIds[i] + '_' + this.listId));
     }
     var $nestedListsContainer = $('<div/>', {class: 'nested-container'}).append(nestedLists);
-    this.DOMList = $('<ul/>', { 'data-initial-count': this.initialCount, class: 'two-column-sort' }).html($('<a/>', { id: 'head'}).text('UnorderedList-1'))
+    this.DOMList = $('<ul/>', { 'data-initial-count': this.initialCount, class: 'two-column-sort' }).html($('<a/>', { id: 'head_' + this.listId }).text('UnorderedList-' + this.listId))
       .append($nestedListsContainer);
     $nestedListsContainer.hide();  
   }
@@ -49,8 +50,8 @@ function UnorderedList(list) {
   
   //displays listitems when unordered list is clicked or see-less link is clicked
   this.appendListItems = function(listItemsLength, listCondition) {
-    var $listOne = this.DOMList.find($('#listone')).html('');
-    var $listTwo = this.DOMList.find($('#listtwo')).html('');
+    var $listOne = this.DOMList.find($('#listone' + '_' + this.listId)).html('');
+    var $listTwo = this.DOMList.find($('#listtwo' + '_' + this.listId)).html('');
     for (var i = 0, len = listItemsLength; i < len; i++) {  
       if (i < listCondition) {
         this.sortedListItems[i].DOMListItem.appendTo($listOne);          
@@ -62,15 +63,20 @@ function UnorderedList(list) {
   }
   
   //displays list items by toggling the nested lists
-  this.displayAndAppendListItems = function() {
+  this.toggleAndAppendListItems = function() {
     unorderedList.displayItemsOnAlphabeticOrderBasis();
-    unorderedList.DOMList.find('.nested-container').slideToggle();
+    unorderedList.toggleListItems();
+  }
+  
+  //toggle list items
+  this.toggleListItems = function() {
+    this.DOMList.find('.nested-container').slideToggle();
   }
   
   //displays items on priority basis
   this.displayItemsOnPriorityBasis = function() {
     unorderedList.sortListItems('priorityOrder');
-    $('#See-More').remove();
+    $('#See-More' + unorderedList.listId).remove();
     var listItemsLength = unorderedList.sortedListItems.length;
     var listCondition = listItemsLength / 2;
     unorderedList.appendListItems(listItemsLength, listCondition);
@@ -88,14 +94,14 @@ function UnorderedList(list) {
   
   //creates anchor link for see-less and see-more
   this.createLastLink = function(textId) {
-    $('<li/>', { 'id': textId }).html($('<a/>').text(textId)).appendTo($('#listtwo'));
+    $('<li/>', { 'id': textId + this.listId }).html($('<a/>', {class: 'last-link'}).text(textId)).appendTo($('#listtwo' + '_' + this.listId));
   }
   
   //binds events
   this.bindEvents = function() {
-    $mainContainer.on('click', '#head', this.displayAndAppendListItems);
-    $mainContainer.on('click', '#See-More', this.displayItemsOnPriorityBasis);
-    $mainContainer.on('click', '#See-Less', this.displayItemsOnAlphabeticOrderBasis);
+    $mainContainer.on('click', '#head_' + this.listId, this.toggleAndAppendListItems);
+    $mainContainer.on('click', '#See-More' + this.listId, this.displayItemsOnPriorityBasis);
+    $mainContainer.on('click', '#See-Less' + this.listId, this.displayItemsOnAlphabeticOrderBasis);
   }
   
   //initializes unordered list

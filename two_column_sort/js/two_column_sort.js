@@ -23,7 +23,7 @@ function TwoColumnSort() {
   //creates unordered list objects and displays them
   this.createUnorderedList = function(listCollection) {
     for (var i = 0, len = listCollection.length; i < len; i++) {
-      this.unorderedList.push(new UnorderedList(listCollection[i]));
+      this.unorderedList.push(new UnorderedList(listCollection[i], i));
     }
     this.displayUnorderedList();
   }

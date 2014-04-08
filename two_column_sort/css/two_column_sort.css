@@ -11,13 +11,13 @@ a:hover {
   cursor: default;
 }
 
-#listtwo, #listone {
+.nested-lists {
   display: inline-block;
   margin-left: 20px;
   vertical-align: top;
   margin-top: 10px;
 }
 
-#See-More, #See-Less {
+.last-link {
   color: red;
 }
