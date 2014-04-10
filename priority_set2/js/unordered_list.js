@@ -9,11 +9,11 @@ UnorderedList.prototype = {
     this.items = list.items;
     this.sortedListItems = [];
     this.DOMList = null;
+    this.itemsPerList = 0;
     this.sortingType = { 'Alphabetic-Sort': 'name', 'Priority-Sort': 'priorityOrder' };
-    this.sortingOrder = {'Ascending': 0, 'Descending': 1};
+    this.sortingOrder = { 'Ascending': 0, 'Descending': 1 };
     this.selectors = { 'ulHead': '#head_' + this.listId, 'seeMore': '#See-More' + this.listId, 'seeLess': '#See-Less' + this.listId, 'sortType': '.sorting-type' + this.listId, 'sortOrder': '.sorting-order' + this.listId, 'listOne': '#listone_' + this.listId, 'listTwo': '#listtwo_' + this.listId };
     this.listLengthAsPerInitialCount = 2 * this.initialCount - 1;
-    unorderedList = this;
   },
   
   //creates dom for nested lists inside the main list
@@ -54,7 +54,7 @@ UnorderedList.prototype = {
   
   //displays list items of the nested lists
   displayListItemsOnPageLoad: function() {
-    unorderedList.appendSortButtons();
+    this.appendSortButtons();
     this.highlightButtonsOnPageLoad();
     this.sortListItems('priorityOrder');
     this.displayListItems(this.listLengthAsPerInitialCount, this.initialCount, 'See-More');
@@ -92,7 +92,7 @@ UnorderedList.prototype = {
       this.sortedListItems.push(new ListItem(this.items[i]));
     }
     this.listItemsTotalLength = this.sortedListItems.length;
-    itemsPerList = this.listItemsTotalLength / 2;
+    this.itemsPerList = this.listItemsTotalLength / 2;
   },
   
   //displays listitems when event is triggered on buttons or see more , see less links
@@ -121,16 +121,15 @@ UnorderedList.prototype = {
   },
   
   //displays on the basis of order or type selected
-  displayItemsAccordingToType: function() {
-    var $sortButton = $(this);
-    var sortTypeSelector = '.sorting-type' + unorderedList.listId + '.selected';
-    var sortOrderSelector = '.sorting-order' + unorderedList.listId + '.selected';
+  displayItemsAccordingToType: function($sortButton) {
+    var sortTypeSelector = '.sorting-type' + this.listId + '.selected';
+    var sortOrderSelector = '.sorting-order' + this.listId + '.selected';
     var className = $sortButton.attr('class');
     $sortButton.addClass('selected').siblings('.' + className).removeClass('selected');
-    var sortType = unorderedList.sortingType[$(sortTypeSelector).val()];
-    var sortOrder = parseInt(unorderedList.sortingOrder[$(sortOrderSelector).val()]);
-    unorderedList.sortListItems(sortType, sortOrder);
-    unorderedList.checkListStatusAndAppendItems();
+    var sortType = this.sortingType[$(sortTypeSelector).val()];
+    var sortOrder = parseInt(this.sortingOrder[$(sortOrderSelector).val()]);
+    this.sortListItems(sortType, sortOrder);
+    this.checkListStatusAndAppendItems();
   },
   
   //appends items by checking status of the list(whether see-more is visible or not)
@@ -139,19 +138,20 @@ UnorderedList.prototype = {
       this.displayListItems(this.listLengthAsPerInitialCount, this.initialCount, 'See-More');
     }
     else {
-      this.displayListItems(this.listItemsTotalLength, itemsPerList, 'See-Less');
+      this.displayListItems(this.listItemsTotalLength, this.itemsPerList, 'See-Less');
     }
   },
   
   //binds events
   bindEvents: function() {
+    var unorderedList = this;
     $mainContainer.on('click', this.selectors.seeMore, function() {
-      unorderedList.displayListItems(unorderedList.listItemsTotalLength, itemsPerList, 'See-Less');
+      unorderedList.displayListItems(unorderedList.listItemsTotalLength, unorderedList.itemsPerList, 'See-Less');
     });
     $mainContainer.on('click', this.selectors.seeLess, function() {
       unorderedList.displayListItems(unorderedList.listLengthAsPerInitialCount, unorderedList.initialCount, 'See-More');
     });
-    $mainContainer.on('click', this.selectors.sortType + ',' + this.selectors.sortOrder , this.displayItemsAccordingToType);
+    $mainContainer.on('click', this.selectors.sortType + ',' + this.selectors.sortOrder , function() { unorderedList.displayItemsAccordingToType($(this))});
   },
   
   //initializes unordered list
