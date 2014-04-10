@@ -1,0 +1,37 @@
+a {
+  color: #2ACAFF;
+}
+
+ul {
+  list-style-type: none;
+}
+
+a:hover {
+  text-decoration: underline;
+  cursor: default;
+}
+
+.nested-lists {
+  display: inline-block;
+  margin-left: 20px;
+  vertical-align: top;
+  margin-top: 10px;
+}
+
+.last-link {
+  color: red;
+}
+
+.sort-buttons-container {
+
+}
+
+.selected {
+  background-color: red;
+}
+
+.sort-button {
+  display: inline-block;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
