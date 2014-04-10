@@ -12,7 +12,7 @@ function ProductFilter() {
   //sets window hash when sort list value selected
   this.setWindowHashForSorting = function() {
     productGrid.setWindowHash($(this).find('option:selected').val(), 'sortBy');
-    productGrid.setWindowHash(1, 'page');
+    productGrid.setWindowHash(productGrid.firstPage, 'page');
   }
   
   //sorts products according to filter selected
@@ -99,11 +99,11 @@ function ProductFilter() {
     var windowHash = window.location.hash;
     if (filterParams && (windowHash.indexOf(filter + '=')) != -1) {
       productGrid.setWindowHash(filterParams, filter);
-      productGrid.setWindowHash(1, 'page');
+      productGrid.setWindowHash(productGrid.firstPage, 'page');
     }
     else if (filterParams && (windowHash.indexOf(filter + '=')) == -1) {
       var windowHashParams = '#' + filter + "=[" + filterParams + "]" + '&';
-      productGrid.setWindowHash(1, 'page');
+      productGrid.setWindowHash(productGrid.firstPage, 'page');
       window.location.hash = window.location.hash.replace('#', windowHashParams);
     }
     else {

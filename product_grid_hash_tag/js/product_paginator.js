@@ -46,6 +46,6 @@ function ProductPaginator() {
   this.setPaginationToWindowHash = function() {
     var productsPerPage = parseInt($(this).val());
     productGrid.setWindowHash(productsPerPage, 'pagination');
-    productGrid.setWindowHash(1, 'page');
+    productGrid.setWindowHash(productGrid.firstPage, 'page');
   }
 }

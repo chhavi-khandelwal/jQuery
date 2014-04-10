@@ -9,6 +9,9 @@ function ProductGrid() {
   this.gridProducts = [];
   this.filteredProducts = [];
   this.filters = ["name", "brand", "color", "sold_out"];
+  this.firstPage = 1;
+  this.defaultPagination = 3;
+  this.defaultSortFilter = 'color';
   var productGrid = this;
   var products = null;
   var $gridProducts;
@@ -27,7 +30,7 @@ function ProductGrid() {
   //append hash when window is loaded
   this.extractInfoFromWindowHash = function() {
     if (window.location.hash == '') {
-      window.location.hash = "#pagination=[3]&sortBy=[color]&page=[1]";
+      window.location.hash = "#pagination=[" + this.defaultPagination + "]&sortBy=[" + this.defaultSortFilter + "]&page=[" + this.firstPage + "]";
     }
     else {
       this.displayProductsExtractedFromHash();
