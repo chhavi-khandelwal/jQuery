@@ -3,14 +3,12 @@ $(document).ready(function() {
   productPaginator = new ProductPaginator();
   productFilter = new ProductFilter();
   productGrid.initialize();
-  productFilter.bindEvents();
-  productPaginator.bindEvents();
 });
 
 function ProductGrid() {
   this.gridProducts = [];
   this.filteredProducts = [];
-  this.filters = ["brand", "color", "sold_out"];
+  this.filters = ["name", "brand", "color", "sold_out"];
   var productGrid = this;
   var products = null;
   var $gridProducts;
@@ -20,20 +18,23 @@ function ProductGrid() {
   this.initialize = function() {
     this.loadProducts();
     this.createProductsHTML();
-    this.appendWindowLoadHash();
+    this.extractInfoFromWindowHash();
     this.bindWindowHashChange();
+    productFilter.bindEvents();
+    productPaginator.bindEvents();
   }
   
   //append hash when window is loaded
-  this.appendWindowLoadHash = function() {
+  this.extractInfoFromWindowHash = function() {
     if (window.location.hash == '') {
       window.location.hash = "#pagination=[3]&sortBy=[color]&page=[1]";
     }
     else {
       this.displayProductsExtractedFromHash();
       var sortByParam = this.getWindowHashParam('sortBy');
+      var paginationParam = this.getWindowHashParam('pagination');
       $('#sort-by-list').val(sortByParam);
-      $('#pagination-list').val(this.getWindowHashParam('pagination'));
+      $('#pagination-list').val(paginationParam);
     }
   }
   
@@ -41,7 +42,7 @@ function ProductGrid() {
   this.getParameterByName = function(name) {
     var regex = new RegExp("[\\#&]" + name + "=([^&#]*)"),
         results = regex.exec(location.hash);
-    return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    return results == null ? "" : results[1].replace(/\+/g, " ");
   }
   
   //binds on hash change event
@@ -114,9 +115,10 @@ function ProductGrid() {
       var url = products[i].url;
       var productColor = products[i].color;
       var productBrand = products[i].brand;
+      var productName = products[i].name;
       var sold_out = products[i].sold_out;
       $('<img/>', {src: url, class: 'gridProduct'})
-        .attr({'data-colorfilter': productColor, 'data-brandfilter': productBrand, 'data-sold_outfilter': sold_out})
+        .attr({'data-namefilter': productName, 'data-colorfilter': productColor, 'data-brandfilter': productBrand, 'data-sold_outfilter': sold_out})
         .appendTo($productGrid);
     }
     $gridProducts = $('.gridProduct');
