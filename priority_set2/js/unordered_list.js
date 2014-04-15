@@ -1,9 +1,9 @@
 var UnorderedList = function(list, id) {
-  this.initialize(list, id);
+  this.initializeProperties(list, id);
   this.initializeUnorderedList();
 }
 UnorderedList.prototype = {
-  initialize: function(list, id) {
+  initializeProperties: function(list, id) {
     this.listId = id;
     this.initialCount = list.initial_count;
     this.items = list.items;
@@ -12,7 +12,7 @@ UnorderedList.prototype = {
     this.itemsPerList = 0;
     this.sortingType = { 'Alphabetic-Sort': 'name', 'Priority-Sort': 'priorityOrder' };
     this.sortingOrder = { 'Ascending': 0, 'Descending': 1 };
-    this.selectors = { 'ulHead': '#head_' + this.listId, 'seeMore': '#See-More' + this.listId, 'seeLess': '#See-Less' + this.listId, 'sortType': '.sorting-type' + this.listId, 'sortOrder': '.sorting-order' + this.listId, 'listOne': '#listone_' + this.listId, 'listTwo': '#listtwo_' + this.listId };
+    this.selectors = { 'ulHead': '#head_' + this.listId, 'seeMore': '#See-More' + this.listId, 'seeLess': '#See-Less' + this.listId, 'sortType': '.sorting-type' + this.listId, 'sortOrder': '.sorting-order' + this.listId, 'listOne': '#listone_' + this.listId, 'listTwo': '#listtwo_' + this.listId, 'sortTypeSelector': '.sorting-type' + this.listId + '.selected', 'sortOrderSelector': '.sorting-order' + this.listId + '.selected' };
     this.listLengthAsPerInitialCount = 2 * this.initialCount - 1;
   },
   
@@ -52,20 +52,6 @@ UnorderedList.prototype = {
     $sortButtonsContainer.append($orderButtons);
   },
   
-  //displays list items of the nested lists
-  displayListItemsOnPageLoad: function() {
-    this.appendSortButtons();
-    this.highlightButtonsOnPageLoad();
-    this.sortListItems('priorityOrder');
-    this.displayListItems(this.listLengthAsPerInitialCount, this.initialCount, 'See-More');
-  },
-  
-  //highlights selected buttons
-  highlightButtonsOnPageLoad: function() {
-    this.DOMList.find('#Priority-Sort' + this.listId).addClass('selected');
-    this.DOMList.find('#Ascending' + this.listId).addClass('selected');
-  },
-
   //sorts items on the basis of name or priority data and name
   sortListItems: function(sortType, sortOrder) {
     if (sortOrder) {
@@ -122,23 +108,21 @@ UnorderedList.prototype = {
   
   //displays on the basis of order or type selected
   displayItemsAccordingToType: function($sortButton) {
-    var sortTypeSelector = '.sorting-type' + this.listId + '.selected';
-    var sortOrderSelector = '.sorting-order' + this.listId + '.selected';
     var className = $sortButton.attr('class');
     $sortButton.addClass('selected').siblings('.' + className).removeClass('selected');
-    var sortType = this.sortingType[$(sortTypeSelector).val()];
-    var sortOrder = parseInt(this.sortingOrder[$(sortOrderSelector).val()]);
+    var sortType = this.sortingType[this.DOMList.find(this.selectors.sortTypeSelector).val()];
+    var sortOrder = parseInt(this.sortingOrder[this.DOMList.find(this.selectors.sortOrderSelector).val()]);
     this.sortListItems(sortType, sortOrder);
     this.checkListStatusAndAppendItems();
   },
   
   //appends items by checking status of the list(whether see-more is visible or not)
   checkListStatusAndAppendItems: function() {
-    if ($(this.selectors.listTwo).find('#See-More' + this.listId).length) {
-      this.displayListItems(this.listLengthAsPerInitialCount, this.initialCount, 'See-More');
+    if ($(this.selectors.listTwo).find(this.selectors.seeLess).length) {
+      this.displayListItems(this.listItemsTotalLength, this.itemsPerList, 'See-Less');
     }
     else {
-      this.displayListItems(this.listItemsTotalLength, this.itemsPerList, 'See-Less');
+      this.displayListItems(this.listLengthAsPerInitialCount, this.initialCount, 'See-More');
     }
   },
   
@@ -153,12 +137,20 @@ UnorderedList.prototype = {
     });
     $mainContainer.on('click', this.selectors.sortType + ',' + this.selectors.sortOrder , function() { unorderedList.displayItemsAccordingToType($(this))});
   },
+
+  highlightAscendingOrderButton: function() {
+    var ascendingBtnselector = '#Ascending' + this.listId;
+    this.DOMList.find(ascendingBtnselector).addClass('selected');
+  },
   
   //initializes unordered list
   initializeUnorderedList: function() {
+    var prioritySelector = '#Priority-Sort' + this.listId;
     this.createDOMForUnorderedList();
     this.createListItems();
-    this.displayListItemsOnPageLoad();
+    this.appendSortButtons();
+    this.highlightAscendingOrderButton();
+    this.displayItemsAccordingToType($(this.DOMList.find(prioritySelector)));
     this.bindEvents();
   }
 }
